@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)file:///C:/Users/willi/Downloads/claradisputes.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clara Disputes — AI Civil Dispute Assistant</title>
+<link href="./Clara Disputes — AI Civil Dispute Assistant_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1f38;
+    --navy-light: #1a3357;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --cream: #f8f5ef;
+    --cream-dark: #ede9e0;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 1.2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(15, 31, 56, 0.97);
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--navy) !important;
+    padding: 0.6rem 1.4rem;
+    border-radius: 2px;
+    font-weight: 500 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--gold-light) !important; color: var(--navy) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 8rem 4rem 4rem;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 168, 76, 0.1);
+  }
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201, 168, 76, 0.12);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    color: var(--gold);
+    padding: 0.4rem 1rem;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 1rem 2rem;
+    border-radius: 2px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    color: var(--white);
+    border-color: var(--white);
+  }
+
+  .hero-trust {
+    margin-top: 3rem;
+    display: flex;
+    gap: 2rem;
+    animation: fadeUp 0.6s ease 0.4s both;
+  }
+
+  .trust-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .trust-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .trust-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+
+  /* CHAT MOCKUP */
+  .hero-visual {
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .chat-mockup {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .chat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  .chat-name {
+    font-size: 0.9rem;
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .chat-status {
+    font-size: 0.75rem;
+    color: #4ade80;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .chat-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ade80;
+  }
+
+  .chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .msg-agent {
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px 8px 8px 2px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+    max-width: 85%;
+  }
+
+  .msg-user {
+    background: var(--gold);
+    border-radius: 8px 8px 2px 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: var(--navy);
+    line-height: 1.5;
+    max-width: 85%;
+    align-self: flex-end;
+    font-weight: 500;
+  }
+
+  .msg-label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 4px;
+  }
+
+  .msg-label.user { text-align: right; }
+
+  /* HOW IT WORKS */
+  .section {
+    padding: 6rem 4rem;
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 520px;
+    font-weight: 300;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    right: 2rem;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+
+  .step {
+    position: relative;
+    padding-top: 4rem;
+  }
+
+  .step-num {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--navy);
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+
+  .step p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* FEATURES */
+  .features-section {
+    background: var(--navy);
+    padding: 6rem 4rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .feature-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: border-color 0.2s;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(201,168,76,0.3);
+  }
+
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(201,168,76,0.12);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+  }
+
+  .feature-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+
+  .feature-card p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* PRICING */
+  .pricing-section {
+    background: var(--cream);
+    padding: 6rem 4rem;
+  }
+
+  .pricing-card {
+    max-width: 480px;
+    margin: 4rem auto 0;
+    background: var(--white);
+    border: 2px solid var(--navy);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .pricing-top {
+    background: var(--navy);
+    padding: 2.5rem;
+    text-align: center;
+  }
+
+  .pricing-label {
+    font-size: 0.75rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .pricing-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--white);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .pricing-amount sup {
+    font-size: 1.5rem;
+    vertical-align: top;
+    margin-top: 0.8rem;
+    display: inline-block;
+  }
+
+  .pricing-desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 0.5rem;
+  }
+
+  .pricing-features {
+    padding: 2rem 2.5rem;
+  }
+
+  .pricing-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--cream-dark);
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .pricing-feature:last-child { border-bottom: none; }
+
+  .check {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.65rem;
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  .pricing-cta {
+    padding: 0 2.5rem 2.5rem;
+  }
+
+  .pricing-cta a {
+    display: block;
+    text-align: center;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .pricing-cta a:hover { background: var(--gold-light); }
+
+  .pricing-note {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+  }
+
+  /* DISCLAIMER */
+  .disclaimer-section {
+    background: var(--cream-dark);
+    padding: 3rem 4rem;
+  }
+
+  .disclaimer-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .disclaimer-inner h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .disclaimer-inner p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--white);
+  }
+
+  .footer-logo span { color: var(--gold); }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 0.82rem;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.6rem; }
+    .section { padding: 4rem 1.5rem; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .features-section { padding: 4rem 1.5rem; }
+    .features-grid { grid-template-columns: 1fr; }
+    .pricing-section { padding: 4rem 1.5rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Clara<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="file:///C:/Users/willi/Downloads/claradisputes.html#how">How it works</a></li>
+    <li><a href="file:///C:/Users/willi/Downloads/claradisputes.html#features">Features</a></li>
+    <li><a href="file:///C:/Users/willi/Downloads/claradisputes.html#pricing">Pricing</a></li>
+    <li><a href="https://buy.stripe.com/test_bJeaEX5qtcOOctn6va2oE00" class="nav-cta">Get started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">England &amp; Wales · Pre-Action Protocol Compliant</div>
+      <h1>Chase what you're <em>owed.</em> Without a solicitor.</h1>
+      <p class="hero-sub">Clara is an AI civil dispute assistant that guides freelancers and small businesses through debt recovery — from a legally compliant Letter Before Action to small claims court guidance.</p>
+      <div class="hero-actions">
+        <a href="https://buy.stripe.com/test_bJeaEX5qtcOOctn6va2oE00" class="btn-primary">Generate my letter — £19.99</a>
+        <a href="file:///C:/Users/willi/Downloads/claradisputes.html#how" class="btn-secondary">See how it works</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <span class="trust-num">£10k</span>
+          <span class="trust-label">Max small claim</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-num">14</span>
+          <span class="trust-label">Day response window</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-num">5min</span>
+          <span class="trust-label">To your letter</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="chat-mockup">
+        <div class="chat-header">
+          <div class="chat-avatar">C</div>
+          <div>
+            <div class="chat-name">Clara</div>
+            <div class="chat-status">Online now</div>
+          </div>
+        </div>
+        <div class="chat-messages">
+          <div>
+            <div class="msg-label">Clara</div>
+            <div class="msg-agent">Hi, I'm Clara. Tell me about your dispute — who owes you money, and what happened?</div>
+          </div>
+          <div>
+            <div class="msg-label user">You</div>
+            <div class="msg-user">My client hasn't paid my invoice for £2,400. It's been 6 weeks.</div>
+          </div>
+          <div>
+            <div class="msg-label">Clara</div>
+            <div class="msg-agent">I can help with that. Do you have a written contract or signed agreement? And have you contacted them about the payment?</div>
+          </div>
+          <div>
+            <div class="msg-label user">You</div>
+            <div class="msg-user">Yes, written contract. They've been ignoring my emails.</div>
+          </div>
+          <div>
+            <div class="msg-label">Clara</div>
+            <div class="msg-agent">Good news — your claim looks strong. I'll now draft a Pre-Action Protocol compliant Letter Before Action. This often resolves disputes without going to court.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-inner">
+    <div class="section-tag">The process</div>
+    <h2 class="section-title">From dispute to letter<br>in four steps</h2>
+    <p class="section-sub">Clara guides you through the legally correct process — no legal jargon, no confusion, no expensive solicitor fees.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Describe your dispute</h3>
+        <p>Tell Clara what happened in plain English. Unpaid invoice, deposit not returned, breach of contract — she handles them all.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Clara clarifies</h3>
+        <p>She asks the right questions to build a complete picture of your claim — dates, amounts, evidence, prior contact.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Claim assessment</h3>
+        <p>Clara gives you an honest strength rating before you commit. Know your chances before you send anything.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Your letter is ready</h3>
+        <p>A fully formatted, Pre-Action Protocol compliant Letter Before Action — ready to send. Plus MCOL guidance if needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-inner">
+    <div class="section-tag" style="color:var(--gold)">What Clara does</div>
+    <h2 class="section-title" style="color:var(--white)">Everything you need<br>to recover what's yours</h2>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <h3>Pre-Action Protocol compliant</h3>
+        <p>Every letter Clara generates follows the Pre-Action Protocol for Debt Claims — the legal requirement before filing in court.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Claim strength assessment</h3>
+        <p>Clara analyses your situation and gives you an honest percentage score — so you know exactly where you stand before sending anything.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✉️</div>
+        <h3>Letter Before Action</h3>
+        <p>A professionally formatted LBA with your details, the debt particulars, a 14-day response deadline, and court filing warning.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏛️</div>
+        <h3>MCOL guidance</h3>
+        <p>If they don't respond, Clara walks you through filing a claim via Money Claim Online — the County Court's online portal.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Private and secure</h3>
+        <p>Your dispute details are never stored or shared. Each session is completely confidential.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant delivery</h3>
+        <p>Your letter is ready in minutes, not days. No waiting for a solicitor appointment. No back and forth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-inner" style="text-align:center">
+    <div class="section-tag">Simple pricing</div>
+    <h2 class="section-title">One price. One letter.<br>No subscriptions.</h2>
+    <p class="section-sub" style="margin: 0 auto">Pay only when you need it. No monthly fees, no hidden costs. Just a professional letter that gets results.</p>
+
+    <div class="pricing-card">
+      <div class="pricing-top">
+        <div class="pricing-label">Letter Before Action</div>
+        <div class="pricing-amount"><sup>£</sup>19.99</div>
+        <div class="pricing-desc">One-time payment · Instant delivery</div>
+      </div>
+      <div class="pricing-features">
+        <div class="pricing-feature"><div class="check">✓</div>Full dispute intake conversation with Clara</div>
+        <div class="pricing-feature"><div class="check">✓</div>Honest claim strength assessment</div>
+        <div class="pricing-feature"><div class="check">✓</div>Pre-Action Protocol compliant LBA</div>
+        <div class="pricing-feature"><div class="check">✓</div>Professionally formatted, ready to send</div>
+        <div class="pricing-feature"><div class="check">✓</div>MCOL next steps guidance included</div>
+        <div class="pricing-feature"><div class="check">✓</div>Payment receipt emailed automatically</div>
+      </div>
+      <div class="pricing-cta">
+        <a href="https://buy.stripe.com/test_bJeaEX5qtcOOctn6va2oE00">Get my Letter Before Action</a>
+      </div>
+      <div class="pricing-note">Covers disputes up to £10,000 in England &amp; Wales</div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<section class="disclaimer-section">
+  <div class="disclaimer-inner">
+    <h3>Legal information notice</h3>
+    <p>Clara provides legal information, not legal advice. The letters and guidance generated are for informational purposes only and do not constitute a solicitor-client relationship. For complex disputes, matters involving significant sums, or if you are unsure of your legal position, we strongly recommend consulting a qualified solicitor. Clara Disputes is not a law firm and is not regulated by the Solicitors Regulation Authority.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Clara<span>.</span></div>
+  <ul class="footer-links">
+    <li><a href="file:///C:/Users/willi/Downloads/claradisputes.html#how">How it works</a></li>
+    <li><a href="file:///C:/Users/willi/Downloads/claradisputes.html#features">Features</a></li>
+    <li><a href="file:///C:/Users/willi/Downloads/claradisputes.html#pricing">Pricing</a></li>
+    <li><a href="mailto:clara@claradisputes.co.uk">Contact</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Clara Disputes. England &amp; Wales.</div>
+</footer>
+
+
+
+</body></html>
