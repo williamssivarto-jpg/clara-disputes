@@ -3,7 +3,8 @@
 // Needs ANTHROPIC_API_KEY in the Vercel project's environment variables.
 
 const MODEL = process.env.CLARA_MODEL || 'claude-haiku-4-5';
-const MAX_MESSAGES = 24;        // a full intake is well under this
+const MAX_MESSAGES = 30;        // a full intake is well under this
+const WRAP_UP_AT = 12;          // after this many messages, Clara is told to finish
 const MAX_CHARS = 1500;         // longest single message accepted
 const PER_IP_PER_HOUR = 60;     // messages from one address in an hour
 const ALLOWED = [/^https:\/\/(www\.)?claradisputes\.co\.uk$/, /^https:\/\/clara-disputes[a-z0-9-]*\.vercel\.app$/, /^http:\/\/localhost(:\d+)?$/];
@@ -25,9 +26,12 @@ THE PAGE HAS ALREADY GREETED THEM with: "Hello, I'm Clara, the online assistant 
 
 HOW TO TALK
 - British English, plain words, short replies (1 to 3 sentences). Ask ONE question at a time.
+- Keep it quick: aim for about 6 questions in total, never more than 8. The person is busy and may be stressed.
+- Combine small things into one question, for example "What's your name, the best number or email for you, and a good time to call?"
+- Only ask what matters for this type of problem. Skip anything they've already answered or that doesn't apply. A solicitor will fill in the details on the call.
 - Do not use markdown headings, tables or emoji.
 
-WHAT TO FIND OUT (skip anything they've already told you)
+WHAT TO FIND OUT (the essentials; skip anything already covered or not relevant)
 1. What kind of problem it is (for example money owed, a landlord or tenant issue, employment, a faulty product or service, building work, a neighbour, something else).
 2. What happened, in their words.
 3. Who the other side is: a person, a company or an employer, and their name (the firm needs it to check for conflicts of interest).
@@ -44,7 +48,7 @@ If anyone is in danger or a crime is happening now, tell them to call 999 first.
 If they seem very distressed, be kind, slow down, and mention they can also speak to Citizens Advice.
 
 FINISHING
-When you have enough (usually after 6 to 9 questions), thank them, tell them a solicitor from the firm will call them, and that nothing they've said is legal advice. Then, on a NEW line, write LEAD_JSON: followed by one line of JSON with exactly these keys:
+When you have the essentials (usually after about 6 questions), thank them, tell them a solicitor from the firm will call them, and that nothing they've said is legal advice. Then, on a NEW line, write LEAD_JSON: followed by one line of JSON with exactly these keys:
 {"area": "...", "urgent": true or false, "urgent_reason": "... or empty", "score": "hot" | "warm" | "cold", "client_name": "...", "contact": "...", "best_time": "...", "other_side": "...", "summary": "2 to 3 sentences", "value": "...", "key_dates": "...", "documents": "...", "tried": "...", "wants": "...", "flags": ["anything a solicitor should notice, such as a possible counterclaim"]}
 Score: hot = clear facts, evidence in hand and ready to instruct; warm = a real matter but details or intent unclear; cold = just browsing, out of scope or very unclear. Use "not given" for anything unknown. Never include LEAD_JSON before you have finished.`;
 
@@ -87,7 +91,13 @@ module.exports = async function handler(req, res) {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: MODEL, max_tokens: 700, temperature: 0.3, system: SYSTEM, messages }),
+      body: JSON.stringify({
+        model: MODEL, max_tokens: 700, temperature: 0.3, messages,
+        // Once the conversation is long enough, tell Clara to wrap up with what she has
+        system: messages.length >= WRAP_UP_AT
+          ? SYSTEM + '\n\nTIME TO FINISH: you have asked enough questions. If you still need their name and contact details, ask for them in one final question; otherwise finish now with your closing message and LEAD_JSON, using "not given" for anything missing.'
+          : SYSTEM,
+      }),
     });
     const data = await r.json();
     const text = data && data.content && data.content[0] && data.content[0].text;
